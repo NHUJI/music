@@ -6,12 +6,16 @@ module.exports = {
   extends: [
     'plugin:vue/vue3-essential',
     'eslint:recommended',
-    '@vue/eslint-config-prettier/skip-formatting'
+    '@vue/eslint-config-prettier'
   ],
   overrides: [
     {
-      files: ['cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}'],
-      extends: ['plugin:cypress/recommended']
+      files: [
+        'cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}'
+      ],
+      extends: [
+        'plugin:cypress/recommended'
+      ]
     }
   ],
   parserOptions: {
@@ -19,5 +23,9 @@ module.exports = {
   },
   env: {
     node: true
+  },
+  rules: {
+    'vue/multi-word-component-names':
+      'off'
   }
 }
