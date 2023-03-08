@@ -1,6 +1,10 @@
 <template>
   <!-- Auth Modal -->
-  <div class="fixed z-10 inset-0 overflow-y-auto" id="modal" :class="hiddenClass">
+  <div
+    class="fixed z-10 inset-0 overflow-y-auto"
+    id="modal"
+    :class="hiddenClass"
+  >
     <div
       class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
     >
@@ -9,7 +13,9 @@
       </div>
 
       <!-- This element is to trick the browser into centering the modal contents. -->
-      <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
+        >&#8203;</span
+      >
 
       <div
         class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
@@ -20,7 +26,10 @@
           <div class="flex justify-between items-center pb-4">
             <p class="text-2xl font-bold">Your Account</p>
             <!-- Modal Close Button -->
-            <div class="modal-close cursor-pointer z-50" @click="modalVisibility = false">
+            <div
+              class="modal-close cursor-pointer z-50"
+              @click="modalVisibility = false"
+            >
               <i class="fas fa-times"></i>
             </div>
           </div>
@@ -33,8 +42,9 @@
                 href="#"
                 @click.prevent="tab = 'login'"
                 :class="{
-                  'hover:text-white text-white bg-blue-600': tab === 'login',
-                  'text-blue-600': tab === 'register'
+                  'hover:text-white text-white bg-blue-600':
+                    tab === 'login',
+                  'text-blue-600': tab === 'register',
                 }"
                 >Login</a
               >
@@ -45,8 +55,9 @@
                 href="#"
                 @click.prevent="tab = 'register'"
                 :class="{
-                  'hover:text-white text-white bg-blue-600': tab === 'register',
-                  'text-blue-600': tab === 'login'
+                  'hover:text-white text-white bg-blue-600':
+                    tab === 'register',
+                  'text-blue-600': tab === 'login',
                 }"
                 >Register</a
               >
@@ -54,23 +65,40 @@
           </ul>
 
           <!-- Login Form -->
-          <form v-show="tab === 'login'">
+          <vee-form
+            v-show="tab === 'login'"
+            :validation-schema="loginSchema"
+            @submit="login"
+            :initial-values="userData"
+          >
             <!-- Email -->
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
-              <input
+              <vee-field
                 type="email"
+                name="email"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Enter Email"
+              />
+              <ErrorMessage
+                class="text-red-600"
+                name="email"
+                as="p"
               />
             </div>
             <!-- Password -->
             <div class="mb-3">
               <label class="inline-block mb-2">Password</label>
-              <input
+              <vee-field
                 type="password"
+                name="password"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Password"
+              />
+              <ErrorMessage
+                class="text-red-600"
+                name="password"
+                as="p"
               />
             </div>
             <button
@@ -79,11 +107,25 @@
             >
               Submit
             </button>
-          </form>
+          </vee-form>
+
           <!-- Registration Form -->
+          <!-- 带有间距的警告框 根据本地data显示决定是否显示、背景颜色、-->
+          <div
+            class="text-white text-center font-bold p-4 rounded mb-4"
+            v-if="reg_show_alert"
+            :class="reg_alert_variant"
+          >
+            {{ reg_alert_msg }}
+          </div>
           <!-- validation-schema允许我们把规则外报道一个对象中,这个值必须是组件数据的一个对象 -->
           <!-- veevalidate的submit会验证全部规则并且避免提交时自动刷新 -->
-          <vee-form v-show="tab === 'register'" :validation-schema="schema" @submit="register">
+          <vee-form
+            v-show="tab === 'register'"
+            :validation-schema="schema"
+            @submit="register"
+            :initial-values="userData"
+          >
             <!-- Name -->
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
@@ -104,7 +146,11 @@
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Enter Email"
               />
-              <ErrorMessage class="text-red-600" name="email" as="p" />
+              <ErrorMessage
+                class="text-red-600"
+                name="email"
+                as="p"
+              />
             </div>
             <!-- Age -->
             <div class="mb-3">
@@ -120,7 +166,11 @@
             <!-- bails设置为false停止使用快速退出策略 -->
             <div class="mb-3">
               <label class="inline-block mb-2">Password</label>
-              <vee-field name="password" :bails="false" v-slot="{ field, errors }">
+              <vee-field
+                name="password"
+                :bails="false"
+                v-slot="{ field, errors }"
+              >
                 <input
                   type="password"
                   class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
@@ -128,21 +178,31 @@
                   v-bind="field"
                 />
                 <!-- 为了输出多个错误使用使用了div -->
-                <div class="text-red-600" v-for="error in errors" :key="error">
+                <div
+                  class="text-red-600"
+                  v-for="error in errors"
+                  :key="error"
+                >
                   {{ error }}
                 </div>
               </vee-field>
             </div>
             <!-- Confirm Password -->
             <div class="mb-3">
-              <label class="inline-block mb-2">Confirm Password</label>
+              <label class="inline-block mb-2"
+                >Confirm Password</label
+              >
               <vee-field
                 type="password"
                 name="confirm_password"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Confirm Password"
               />
-              <ErrorMessage class="text-red-600" name="confirm_password" as="p" />
+              <ErrorMessage
+                class="text-red-600"
+                name="confirm_password"
+                as="p"
+              />
             </div>
             <!-- Country -->
             <div class="mb-3">
@@ -158,7 +218,11 @@
                 <option value="Moon">Moon</option>
                 <option value="Mars">Mars</option>
               </vee-field>
-              <ErrorMessage class="text-red-600" name="country" as="p" />
+              <ErrorMessage
+                class="text-red-600"
+                name="country"
+                as="p"
+              />
             </div>
             <!-- TOS -->
             <div class="mb-3 pl-6">
@@ -169,12 +233,16 @@
                 value="1"
                 class="w-4 h-4 float-left -ml-6 mt-1 rounded"
               />
-              <label class="inline-block">Accept terms of service</label>
+              <label class="inline-block"
+                >Accept terms of service</label
+              >
               <ErrorMessage class="text-red-600" name="tos" as="p" />
             </div>
             <button
               type="submit"
-              class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700"
+              class="block w-full text-white py-1.5 px-3 rounded transition"
+              :disabled="reg_in_submission"
+              :class="reg_button"
             >
               Submit
             </button>
@@ -187,38 +255,74 @@
 
 <script>
 // mapState, mapWritableState 是实现一个目的的不同方式
-import { mapState, mapWritableState } from 'pinia'
-import useModalStore from '@/stores/modal'
+import { mapState, mapWritableState } from "pinia";
+import useModalStore from "@/stores/modal";
 
 export default {
-  name: 'AppAuth',
+  name: "AppAuth",
   data() {
     return {
-      tab: 'login', // 默认显示登录
+      tab: "login", // 默认显示登录
       schema: {
         // 只允许输入空格和字符
-        name: 'required|min:3|max:100|alpha_spaces',
-        email: 'required|min:3|max:100|email',
-        age: 'required|min_value:18|max_value:100',
-        password: 'required|min:9|max:100|excluded:password',
-        confirm_password: 'confirmed:@password',
-        country: 'required|excluded:Moon,Mars',
-        tos: 'required'
-      }
-    }
+        name: "required|min:3|max:100|alpha_spaces",
+        email: "required|min:3|max:100|email",
+        age: "required|min_value:18|max_value:100",
+        password: "required|min:9|max:100|excluded:password",
+        confirm_password: "passwords_mismatch:@password",
+        country: "required|country_excluded:Moon,Mars",
+        tos: "tos",
+      },
+      // 给表单增加默认值,必须和field里的name相同
+      userData: {
+        country: "USA",
+      },
+      reg_in_submission: false, // 用于如果提交正在进行,禁用表单
+      reg_show_alert: false, // 警告框,默认隐藏
+      reg_alert_variant: "bg-blue-500", // 不同颜色的警告框
+      reg_alert_msg: "Please wait! Your account is being created.",
+      reg_button: "bg-purple-600 hover:bg-purple-700", // 提交前显示蓝色
+      loginSchema: {
+        email: "required|email",
+        password: "required|min:9|max:100",
+      },
+    };
   },
   computed: {
     // 之所以不在这里进行hiddenClass逻辑,是为了复用
-    ...mapState(useModalStore, ['hiddenClass']),
+    ...mapState(useModalStore, ["hiddenClass"]),
     // ...mapWritableState(useModalStore, ['isOpen'])
     ...mapWritableState(useModalStore, {
-      modalVisibility: 'isOpen'
-    })
+      modalVisibility: "isOpen",
+    }),
   },
   methods: {
     register(values) {
-      console.log(values)
-    }
-  }
-}
+      this.reg_show_alert = true;
+      this.reg_in_submission = true;
+      this.reg_alert_variant = "bg-blue-500";
+      this.reg_alert_msg =
+        "Please wait! Your account is being created.";
+
+      this.reg_alert_variant = "bg-green-500";
+      this.reg_alert_msg = "Success! Your accoutn has been created";
+      console.log(values);
+
+      this.reg_button = "bg-gray-800"; // 提交后显示灰色
+    },
+    login(values) {
+      this.reg_show_alert = true;
+      this.reg_in_submission = true;
+      this.reg_alert_variant = "bg-blue-500";
+      this.reg_alert_msg =
+        "Please wait! Your account is being created.";
+
+      this.reg_alert_variant = "bg-green-500";
+      this.reg_alert_msg = "Success! Your accoutn has been login";
+      console.log(values);
+
+      this.reg_button = "bg-gray-800"; // 提交后显示灰色
+    },
+  },
+};
 </script>
