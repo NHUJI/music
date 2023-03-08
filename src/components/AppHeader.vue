@@ -32,19 +32,19 @@
 
 <script>
 // 将store合并到组件中,就可以访问存储的值了
-import { mapStores } from 'pinia'
-import useModalStore from '@/stores/modal' // @符号在Vue.js应用中是一个特殊的别名，指代的是应用程序的根目录
+import { mapStores } from "pinia";
+import useModalStore from "@/stores/modal"; // @符号在Vue.js应用中是一个特殊的别名，指代的是应用程序的根目录
 export default {
-  name: 'AppHeader',
+  name: "AppHeader",
   computed: {
-    ...mapStores(useModalStore) // 用展开运算符调用存储函数
+    ...mapStores(useModalStore), // 用展开运算符调用存储函数
   },
   methods: {
     toggleAuthModal() {
       // modalStore是由mapStores创建的,根据modal.js中定义的id名字创建的
-      this.modalStore.isOpen = !this.modalStore.isOpen
-      console.log(this.modalStore.isOpen)
-    }
-  }
-}
+      this.modalStore.isOpen = !this.modalStore.isOpen;
+      console.log(this.modalStore.isOpen);
+    },
+  },
+};
 </script>
