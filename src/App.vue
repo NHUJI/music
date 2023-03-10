@@ -1,5 +1,6 @@
 <template>
   <app-header />
+  <router-view></router-view>
 
   <!-- Introduction -->
   <section class="mb-8 py-20 text-white text-center relative">

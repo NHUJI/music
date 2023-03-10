@@ -1,29 +1,25 @@
-import {
-  createRouter,
-  createWebHistory
-} from 'vue-router'
-import Home from '../views/Home.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import Home from "@/views/Home.vue";
+import About from "@/views/About.vue";
+
+// 独立出来方便管理(可选)
+const routers = [
+  {
+    // path表示example.com/之后的部分
+    path: "/",
+    // 返回对应的组件,呈现页面主要内容的组件一般放在views文件夹
+    component: Home,
+  },
+  {
+    path: "/about",
+    component: About,
+  },
+];
 
 const router = createRouter({
-  history: createWebHistory(
-    import.meta.env.BASE_URL
-  ),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import('../views/About.vue')
-    }
-  ]
-})
+  // 在浏览器中启用history,比如不刷新页面改变url
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: routers,
+});
 
-export default router
+export default router;
