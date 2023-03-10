@@ -39,5 +39,10 @@ export default defineStore("user", {
       // 不用使用try catch因为如果上面一步出错会抛出错误
       this.userLoggedIn = true;
     },
+    async signOut() {
+      // firebase提供的简单方法,会把本地和服务器的注销都实现
+      await auth.signOut();
+      this.userLoggedIn = false;
+    },
   },
 });

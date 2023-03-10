@@ -327,6 +327,7 @@ export default {
     ...mapWritableState(useUserStore, ["userLoggedIn"]),
   },
   created() {
+    // 如果用户登录了就设置userLoggedIn为true
     if (auth.currentUser) {
       this.userLoggedIn = true;
     }

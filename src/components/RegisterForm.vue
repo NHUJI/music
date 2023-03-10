@@ -182,6 +182,8 @@ export default {
       this.reg_alert_msg = "Success! Your accoutn has been created";
 
       this.reg_button = "bg-gray-800"; // 提交后显示灰色
+
+      window.location.reload();
     },
   },
 };
