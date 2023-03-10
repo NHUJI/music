@@ -93,7 +93,7 @@ export default {
   computed: {
     // 之所以不在这里进行hiddenClass逻辑,是为了复用
     ...mapState(useModalStore, ["hiddenClass"]),
-    // ...mapWritableState(useModalStore, ['isOpen'])
+
     ...mapWritableState(useModalStore, {
       modalVisibility: "isOpen",
     }),
