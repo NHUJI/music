@@ -1,5 +1,6 @@
 <template>
   <app-header />
+  <!-- 用于路由定向的组件显示的位置 -->
   <router-view></router-view>
 
   <!-- Introduction -->
