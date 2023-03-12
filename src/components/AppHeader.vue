@@ -6,9 +6,10 @@
     >
       <!-- App Name -->
       <!-- Vue Router注册的全局组件,会创建一个anchor tag(它将会监听点击事件,会由路由来处理重定向) -->
+      <!-- to="/",如果传入string会被认为是路径,使用对象才能使用name -->
       <router-link
         class="text-white font-bold uppercase text-2xl mr-4"
-        to="/"
+        :to="{ name: 'home' }"
         exact-active-class="no-active"
         >Music</router-link
       >
@@ -18,7 +19,9 @@
         <ul class="flex flex-row mt-1">
           <!-- Navigation Links -->
           <li>
-            <router-link class="px-2 text-white" to="/about"
+            <router-link
+              class="px-2 text-white"
+              :to="{ name: 'about' }"
               >About
             </router-link>
           </li>
@@ -33,7 +36,9 @@
           <!-- 把Manage和Logout放在里面来使用v-else -->
           <template v-else>
             <li>
-              <router-link class="px-2 text-white" to="/manage"
+              <router-link
+                class="px-2 text-white"
+                :to="{ name: 'manage' }"
                 >Manage</router-link
               >
             </li>
@@ -41,7 +46,7 @@
               <a
                 class="px-2 text-white"
                 href="#"
-                @click.prevent="userStore.signOut"
+                @click.prevent="signOut"
                 >Logout</a
               >
             </li>
@@ -69,6 +74,15 @@ export default {
       this.modalStore.isOpen = !this.modalStore.isOpen;
       console.log(this.modalStore.isOpen);
       // console.log(this.userStore.userLoggedIn);
+    },
+    signOut() {
+      this.userStore.signOut();
+      console.log(this.$route);
+      //路由对象,表示当前路由 可以用来找到当前的信息
+      // 只有当用户在需要权限查看的页面上登出才重定向
+      if (this.$route.meta.requiresAuth) {
+        this.$router.push({ name: "home" }); // vue会把路由注入每个组件所以可以使用它
+      }
     },
   },
 };

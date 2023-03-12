@@ -1,3 +1,5 @@
+// 用于表单验证(vue validate)
+
 // 使用as防止冲突
 import {
   Form as VeeForm,

@@ -1,7 +1,8 @@
-// 只引入需要的,减小应用体积
+// 只引入需要的,减小应用体积,v9版本不同记得加上/compat
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import "firebase/compat/storage";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -21,7 +22,8 @@ firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.firestore();
+const storage = firebase.storage();
 
 const usersCollection = db.collection("users");
 
-export { auth, db, usersCollection };
+export { auth, db, usersCollection, storage };
