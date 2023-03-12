@@ -27,33 +27,25 @@
           <h5>Drop your files here</h5>
         </div>
         <hr class="my-6" />
+
         <!-- Progess Bars -->
-        <div class="mb-4">
+        <div
+          class="mb-4"
+          v-for="upload in uploads"
+          :key="upload.name"
+        >
           <!-- File Name -->
-          <div class="font-bold text-sm">Just another song.mp3</div>
+          <div class="font-bold text-sm" :class="upload.text_class">
+            <i :class="upload.icon"></i> {{ upload.name }}
+          </div>
           <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
             <!-- Inner Progress Bar -->
             <div
-              class="transition-all progress-bar bg-blue-400"
-              style="width: 75%"
-            ></div>
-          </div>
-        </div>
-        <div class="mb-4">
-          <div class="font-bold text-sm">Just another song.mp3</div>
-          <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-            <div
-              class="transition-all progress-bar bg-blue-400"
-              style="width: 35%"
-            ></div>
-          </div>
-        </div>
-        <div class="mb-4">
-          <div class="font-bold text-sm">Just another song.mp3</div>
-          <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-            <div
-              class="transition-all progress-bar bg-blue-400"
-              style="width: 55%"
+              class="transition-all progress-bar"
+              :class="upload.variant"
+              :style="{
+                width: upload.current_progress + '%',
+              }"
             ></div>
           </div>
         </div>
@@ -69,6 +61,8 @@ export default {
     return {
       //  拖动文件到方框时的hover效果开启
       is_dragover: false,
+      // 将上传的内容存入这个数组以方便展示
+      uploads: [],
     };
   },
   methods: {
@@ -87,7 +81,42 @@ export default {
         // 创建引用,并把歌曲存在songs文件夹下
         const storageRef = storage.ref(); // xxx.xxx.com
         const songsRef = storageRef.child(`songs/${file.name}`); // xxx.xxx.com/songs/xxxxx.mp3
-        songsRef.put(file);
+        // 监听put返回对象的事件
+        const task = songsRef.put(file);
+
+        // push存入上传的文件数据用于展示进度条,然后返回数组长度,减1获得Index大小
+        const uploadIndex =
+          this.uploads.push({
+            task,
+            current_progress: 0,
+            name: file.name,
+            variant: "bg-blue-400", // 增加默认颜色,方便修改
+            icon: "fas fa-spinner fa-spin", // 增加font awesome图标
+            text_class: "", // 文件名颜色
+          }) - 1;
+
+        // 返回上传成功、失败还有进度 snapshot代表当前的状态
+        task.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            this.uploads[uploadIndex].current_progress = progress;
+          },
+          (error) => {
+            // 处理失败情况
+            this.uploads[uploadIndex].variant = "bg-red-400";
+            this.uploads[uploadIndex].icon = "fas fa-times";
+            this.uploads[uploadIndex].text_class = "text-red-400";
+            console.log(error);
+          },
+          () => {
+            // 处理成功
+            this.uploads[uploadIndex].variant = "bg-green-400";
+            this.uploads[uploadIndex].icon = "fas fa-check";
+            this.uploads[uploadIndex].text_class = "text-green-400";
+          }
+        );
       });
     },
   },
