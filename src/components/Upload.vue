@@ -26,6 +26,7 @@
         >
           <h5>Drop your files here</h5>
         </div>
+        <input type="file" multiple @change="upload($event)" />
         <hr class="my-6" />
 
         <!-- Progess Bars -->
@@ -54,7 +55,8 @@
   </div>
 </template>
 <script>
-import { storage } from "@/includes/firebase";
+import { storage, auth, songsCollection } from "@/includes/firebase";
+
 export default {
   name: "Upload",
   data() {
@@ -71,7 +73,11 @@ export default {
       this.is_dragover = false;
       // 文件对象,不过需要把文件对象转换成数组
       //   const { files } = $event.dataTransfer;
-      const files = [...$event.dataTransfer.files];
+      // 选择文件上传的存储位置不一样
+      const files = $event.dataTransfer
+        ? [...$event.dataTransfer.files]
+        : [...$event.target.files];
+
       // 遍历上传的文件来传入firebase
       files.forEach((file) => {
         // 检查文件类型(客户端)
@@ -110,8 +116,19 @@ export default {
             this.uploads[uploadIndex].text_class = "text-red-400";
             console.log(error);
           },
-          () => {
-            // 处理成功
+          async () => {
+            // 成功后改变进度条样式和存储上传文件的用户信息,存储两个名字是为了避免用户修改歌曲名称时我们需要修改数据库和重命名文件
+            const song = {
+              uid: auth.currentUser.uid,
+              display_name: auth.currentUser.displayName,
+              original_name: task.snapshot.ref.name,
+              modified_name: task.snapshot.ref.name,
+              genre: "",
+              comment_count: 0,
+            };
+            song.url = await task.snapshot.ref.getDownloadURL();
+            await songsCollection.add(song); // add和set不同在于,add会自动生成ID
+
             this.uploads[uploadIndex].variant = "bg-green-400";
             this.uploads[uploadIndex].icon = "fas fa-check";
             this.uploads[uploadIndex].text_class = "text-green-400";
