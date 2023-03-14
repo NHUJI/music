@@ -136,6 +136,17 @@ export default {
         );
       });
     },
+    // cancelUploads() {
+    //   this.uploads.forEach((upload) => {
+    //     upload.task.cancel();
+    //   });
+    // },
+    // 用户离开组件时取消上传
+    beforeUnmount() {
+      this.uploads.forEach((upload) => {
+        upload.task.cancel();
+      });
+    },
   },
 };
 </script>
