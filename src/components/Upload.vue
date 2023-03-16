@@ -67,6 +67,7 @@ export default {
       uploads: [],
     };
   },
+  props: ["addSong"],
   methods: {
     upload($event) {
       // 元素drop后关掉js添加的hover效果
@@ -127,7 +128,10 @@ export default {
               comment_count: 0,
             };
             song.url = await task.snapshot.ref.getDownloadURL();
-            await songsCollection.add(song); // add和set不同在于,add会自动生成ID
+            const songRef = await songsCollection.add(song); // add和set不同在于,add会自动生成ID
+            // 通过快照,上传后把歌曲更新到本地列表
+            const songSnapshot = await songRef.get();
+            this.addSong(songSnapshot);
 
             this.uploads[uploadIndex].variant = "bg-green-400";
             this.uploads[uploadIndex].icon = "fas fa-check";
