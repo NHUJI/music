@@ -64,18 +64,72 @@ export default {
   data() {
     return {
       songs: [],
+      maxPerPage: 25,
+      pendingRequest: false,
     };
   },
   // 打开页面时获取歌曲数据
   async created() {
-    const snapshots = await songsCollection.get();
+    this.getSongs();
 
-    snapshots.forEach((document) => {
-      this.songs.push({
-        ...document.data(), // 展开运算符把值放入对象
-        docID: document.id,
+    // This code adds a scroll event listener to the window object. The callback function is
+    // handleScroll, which is defined below. The scroll event listener is removed in the beforeUnmount
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  beforeUnmount() {
+    // 在页面关闭时移除滚动事件监听器,避免内存泄漏
+    window.removeEventListener("scroll", this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      // Destructure the properties we need from the document and window objects
+      const { scrollTop, offsetHeight } = document.documentElement;
+      const { innerHeight } = window;
+
+      const bottomOfWindow =
+        Math.round(scrollTop + innerHeight) >= offsetHeight - 100;
+
+      if (bottomOfWindow) {
+        this.getSongs();
+      }
+    },
+
+    async getSongs() {
+      // if now fetching songs, stop the function
+      if (this.pendingRequest) {
+        return;
+      }
+      this.pendingRequest = true;
+      let snapshots;
+
+      if (this.songs.length) {
+        // get the last song id in the array already fetched
+        const lastDoc = await songsCollection
+          .doc(this.songs[this.songs.length - 1].docID)
+          .get();
+
+        snapshots = await songsCollection
+          .orderBy("modified_name")
+          .startAfter(lastDoc) // start after the last song in the array
+          .limit(this.maxPerPage)
+          .get();
+      } else {
+        // if there are no songs in the array, fetch the first batch
+        snapshots = await songsCollection
+          .orderBy("modified_name")
+          .limit(this.maxPerPage)
+          .get();
+      }
+
+      snapshots.forEach((document) => {
+        this.songs.push({
+          docID: document.id,
+          ...document.data(), // 展开运算符把值放入对象
+        });
       });
-    });
+
+      this.pendingRequest = false;
+    },
   },
 };
 </script>
