@@ -28,7 +28,7 @@
     >
       <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
         <!-- Comment Count -->
-        <span class="card-title">Comments (15)</span>
+        <span class="card-title">{{ song.comment_count }}</span>
         <i
           class="fa fa-comments float-right text-green-400 text-2xl"
         ></i>
@@ -146,6 +146,11 @@ export default {
       return;
     }
 
+    // grab sort from query
+    const { sort } = this.$route.query;
+    // if sort is 1 or 2, then set it to this.sort, otherwise set it to 1
+    this.sort = sort === "1" || sort === "2" ? sort : "1";
+
     this.song = docSnapshot.data();
     this.getComments();
   },
@@ -166,6 +171,11 @@ export default {
       };
 
       await commentsCollection.add(comment); // add comment to firestore
+
+      this.song.comment_count += 1; // increment comment count
+      await songsCollection.doc(this.$route.params.id).update({
+        comment_count: this.song.comment_count,
+      }); // update comment count in firestore
 
       this.getComments();
 
@@ -188,6 +198,21 @@ export default {
           docID: doc.id, // id not in the document, so we need to add it
           ...doc.data(),
         });
+      });
+    },
+  },
+  // watch is used to watch the change of the data
+  watch: {
+    // when sort change, we will push the new sort value to the query
+    sort(newVal) {
+      // make sure only push when the sort value is different
+      if (this.$route.query.sort === newVal) {
+        return;
+      }
+      this.$router.push({
+        query: {
+          sort: newVal,
+        },
       });
     },
   },

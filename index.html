@@ -12,11 +12,21 @@
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
       rel="stylesheet"
     />
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
       integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
       crossorigin="anonymous"
+    /> -->
+    <!-- make this link as async, incase of slow network -->
+    <link
+      rel="preload"
+      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+      integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+      crossorigin="anonymous"
+      onload="this.onload=null;this.rel='stylesheet';"
+      onerror="this.onload=null;this.rel='stylesheet';"
+      as="style"
     />
   </head>
   <body class="bg-gray-100 font-sans pb-24">
