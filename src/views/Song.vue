@@ -36,9 +36,12 @@
           class="px-6 pt-6 pb-5 font-bold border-b border-gray-200"
         >
           <!-- Comment Count -->
-          <span class="card-title"
-            >Comments ({{ song.comment_count }})</span
-          >
+          <!-- Comments ({{ song.comment_count }}) -->
+          <span class="card-title">{{
+            $tc("song.comment_count", song.comment_count, {
+              count: song.comment_count,
+            })
+          }}</span>
           <i
             class="fa fa-comments float-right text-green-400 text-2xl"
           ></i>

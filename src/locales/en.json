@@ -1,0 +1,39 @@
+{
+  "App": {
+    "AppHeader": {
+      "About": "About",
+      "Login_Register": "Login / Register",
+      "Logout": "Logout",
+      "Manage": "Manage"
+    },
+    "Player": {}
+  },
+  "home": {
+    "listen": "Listen to Great Music!",
+    "songs": "Songs"
+  },
+  "song": {
+    "comment_count": "No comments | 1 comment | {count} comments"
+  },
+  "about": {
+    "about": "This is an about page"
+  },
+  "auth": {
+    "Your_Account": "Your Account",
+    "Login": "Login",
+    "Register": "Register",
+    "Email": "Email",
+    "Password": "Password",
+    "Submit": "Submit",
+    "RegisterForm": {
+      "Name": "Name",
+      "Enter_Name": "Enter Name",
+      "Enter_Email": "Enter Email",
+      "Age": "Age",
+      "Enter_Password": "Enter Password",
+      "Confirm_Password": "Confirm Password",
+      "Country": "Country",
+      "Terms": "Accept terms of service"
+    }
+  }
+}

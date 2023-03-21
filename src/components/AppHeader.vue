@@ -22,7 +22,8 @@
             <router-link
               class="px-2 text-white"
               :to="{ name: 'about' }"
-              >About
+            >
+              {{ $t("App.AppHeader.About") }}
             </router-link>
           </li>
           <li v-if="!userStore.userLoggedIn">
@@ -30,7 +31,7 @@
               class="px-2 text-white"
               href="#"
               @click.prevent="toggleAuthModal"
-              >Login / Register</a
+              >{{ $t("App.AppHeader.Login_Register") }}</a
             >
           </li>
           <!-- 把Manage和Logout放在里面来使用v-else -->
@@ -39,7 +40,7 @@
               <router-link
                 class="px-2 text-white"
                 :to="{ name: 'manage' }"
-                >Manage</router-link
+                >{{ $t("App.AppHeader.Manage") }}</router-link
               >
             </li>
             <li>
@@ -47,7 +48,7 @@
                 class="px-2 text-white"
                 href="#"
                 @click.prevent="signOut"
-                >Logout</a
+                >{{ $t("App.AppHeader.Logout") }}</a
               >
             </li>
           </template>

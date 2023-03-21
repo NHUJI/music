@@ -17,29 +17,33 @@
   >
     <!-- Name -->
     <div class="mb-3">
-      <label class="inline-block mb-2">Name</label>
+      <label class="inline-block mb-2">{{
+        $t("auth.RegisterForm.Name")
+      }}</label>
       <vee-field
         name="name"
         type="text"
         class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-        placeholder="Enter Name"
+        :placeholder="$t('auth.RegisterForm.Enter_Name')"
       />
       <ErrorMessage class="text-red-600" name="name" as="p" />
     </div>
     <!-- Email -->
     <div class="mb-3">
-      <label class="inline-block mb-2">Email</label>
+      <label class="inline-block mb-2">{{ $t("auth.Email") }}</label>
       <vee-field
         name="email"
         type="email"
         class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-        placeholder="Enter Email"
+        :placeholder="$t('auth.RegisterForm.Enter_Email')"
       />
       <ErrorMessage class="text-red-600" name="email" as="p" />
     </div>
     <!-- Age -->
     <div class="mb-3">
-      <label class="inline-block mb-2">Age</label>
+      <label class="inline-block mb-2">{{
+        $t("auth.RegisterForm.Age")
+      }}</label>
       <vee-field
         type="number"
         name="age"
@@ -50,7 +54,9 @@
     <!-- Password -->
     <!-- bails设置为false停止使用快速退出策略 -->
     <div class="mb-3">
-      <label class="inline-block mb-2">Password</label>
+      <label class="inline-block mb-2">{{
+        $t("auth.Password")
+      }}</label>
       <vee-field
         name="password"
         :bails="false"
@@ -59,7 +65,7 @@
         <input
           type="password"
           class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-          placeholder="Password"
+          :placeholder="$t('auth.RegisterForm.Enter_Password')"
           v-bind="field"
         />
         <!-- 为了输出多个错误使用使用了div -->
@@ -74,12 +80,14 @@
     </div>
     <!-- Confirm Password -->
     <div class="mb-3">
-      <label class="inline-block mb-2">Confirm Password</label>
+      <label class="inline-block mb-2">{{
+        $t("auth.RegisterForm.Confirm_Password")
+      }}</label>
       <vee-field
         type="password"
         name="confirm_password"
         class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-        placeholder="Confirm Password"
+        :placeholder="$t('auth.RegisterForm.Confirm_Password')"
       />
       <ErrorMessage
         class="text-red-600"
@@ -89,7 +97,9 @@
     </div>
     <!-- Country -->
     <div class="mb-3">
-      <label class="inline-block mb-2">Country</label>
+      <label class="inline-block mb-2">{{
+        $t("auth.RegisterForm.Country")
+      }}</label>
       <vee-field
         as="select"
         name="country"
@@ -112,7 +122,9 @@
         value="1"
         class="w-4 h-4 float-left -ml-6 mt-1 rounded"
       />
-      <label class="inline-block">Accept terms of service</label>
+      <label class="inline-block">{{
+        $t("auth.RegisterForm.Terms")
+      }}</label>
       <ErrorMessage class="text-red-600" name="tos" as="p" />
     </div>
     <button
@@ -121,7 +133,7 @@
       :disabled="reg_in_submission"
       :class="reg_button"
     >
-      Submit
+      {{ $t("auth.Submit") }}
     </button>
   </vee-form>
 </template>

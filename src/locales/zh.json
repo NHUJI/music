@@ -1,0 +1,39 @@
+{
+  "App": {
+    "AppHeader": {
+      "About": "关于",
+      "Login_Register": "登录 / 注册",
+      "Logout": "退出登录",
+      "Manage": "管理"
+    },
+    "Player": {}
+  },
+  "home": {
+    "listen": "聆听精彩音乐！",
+    "songs": "歌曲"
+  },
+  "song": {
+    "comment_count": "没有评论 | 1 条评论 | {count} 条评论"
+  },
+  "about": {
+    "about": "这是关于页面"
+  },
+  "auth": {
+    "Your_Account": "您的账户",
+    "Login": "登录",
+    "Register": "注册",
+    "Email": "电子邮件",
+    "Password": "密码",
+    "Submit": "提交",
+    "RegisterForm": {
+      "Name": "姓名",
+      "Enter_Name": "输入姓名",
+      "Enter_Email": "输入电子邮件",
+      "Age": "年龄",
+      "Enter_Password": "输入密码",
+      "Confirm_Password": "确认密码",
+      "Country": "国家",
+      "Terms": "接受服务条款"
+    }
+  }
+}
