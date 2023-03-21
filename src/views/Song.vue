@@ -220,7 +220,6 @@ export default {
   // watch is used to watch the change of the data
   watch: {
     // when sort change, we will push the new sort value to the query
-    //
     sort(newVal) {
       // make sure only push when the sort value is different
       if (this.$route.query.sort === newVal) {
