@@ -33,7 +33,8 @@
       "Enter_Password": "输入密码",
       "Confirm_Password": "确认密码",
       "Country": "国家",
-      "Terms": "接受服务条款"
+      "accept": "我接受 Music'的{0}",
+      "tos": "服务条款"
     }
   }
 }

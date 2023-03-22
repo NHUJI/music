@@ -122,9 +122,13 @@
         value="1"
         class="w-4 h-4 float-left -ml-6 mt-1 rounded"
       />
-      <label class="inline-block">{{
-        $t("auth.RegisterForm.Terms")
-      }}</label>
+      <i18n-t
+        class="inline-block"
+        keypath="auth.RegisterForm.accept"
+        tag="label"
+      >
+        <a href="#">{{ $t("auth.RegisterForm.tos") }}</a></i18n-t
+      >
       <ErrorMessage class="text-red-600" name="tos" as="p" />
     </div>
     <button

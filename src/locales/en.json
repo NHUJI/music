@@ -33,7 +33,8 @@
       "Enter_Password": "Enter Password",
       "Confirm_Password": "Confirm Password",
       "Country": "Country",
-      "Terms": "Accept terms of service"
+      "accept": "I accept Music's {0}",
+      "tos": "Terms of Service"
     }
   }
 }
