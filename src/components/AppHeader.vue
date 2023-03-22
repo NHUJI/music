@@ -53,6 +53,19 @@
             </li>
           </template>
         </ul>
+        <ul class="ml-auto">
+          <li>
+            <!-- href不重要,我们会重新定义转向,只是为了监听点击事件而已 -->
+            <a
+              class="px-2 text-white"
+              href="#"
+              @click.prevent="changeLocale"
+            >
+              <i class="fa fa-language"></i>
+              {{ currentLocale }}
+            </a>
+          </li>
+        </ul>
       </div>
     </nav>
   </header>
@@ -68,6 +81,9 @@ export default {
   name: "AppHeader",
   computed: {
     ...mapStores(useModalStore, useUserStore), // 用展开运算符调用存储函数
+    currentLocale() {
+      return this.$i18n.locale === "en" ? "English" : "中文"; // 如果当前语言是英文,就显示中文,否则显示英文
+    },
   },
   methods: {
     toggleAuthModal() {
@@ -84,6 +100,10 @@ export default {
       if (this.$route.meta.requiresAuth) {
         this.$router.push({ name: "home" }); // vue会把路由注入每个组件所以可以使用它
       }
+    },
+    changeLocale() {
+      // 切换语言
+      this.$i18n.locale = this.$i18n.locale === "en" ? "zh" : "en";
     },
   },
 };
