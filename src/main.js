@@ -7,9 +7,12 @@ import VeeValidatePlugin from "./includes/validation";
 import { auth } from "./includes/firebase";
 import Icon from "./directives/icon";
 import i18n from "./includes/i18n";
+import { registerSW } from "virtual:pwa-register";
 
 import "./assets/base.css";
 import "./assets/main.css";
+
+registerSW({ immediate: true }); // 它会在页面加载时立即注册服务工作程序
 
 let app;
 

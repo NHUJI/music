@@ -85,6 +85,20 @@ export default {
         if (file.type !== "audio/mpeg") {
           return; //如果检查没问题就继续后面的代码
         }
+
+        // 用于支持离线模式,如果用户离线就不上传
+        if (!navigator.onLine) {
+          // 修改上传人物数组
+          this.uploads.push({
+            task: {}, // 上传任务设置为空
+            current_progress: 100, // 进度条设置为100 表示上传失败
+            name: file.name, // 文件名
+            variant: "bg-red-400", // 进度条颜色
+            icon: "fas fa-times", // 失败图标
+            text_class: "text-red-400", // 颜色
+          });
+          return;
+        }
         // 创建引用,并把歌曲存在songs文件夹下
         const storageRef = storage.ref(); // xxx.xxx.com
         const songsRef = storageRef.child(`songs/${file.name}`); // xxx.xxx.com/songs/xxxxx.mp3

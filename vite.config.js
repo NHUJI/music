@@ -1,14 +1,37 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from "node:url";
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
+import vue from "@vitejs/plugin-vue";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    VitePWA({
+      registerType: "autoUpdate", // PWA可以离线运行,所以需要缓存应用文件
+      devOptions: {
+        enabled: true, // 默认情况下清单和服务工作程序仅在生产中生成。如果您想在开发中测试它们，可以将此选项设置为true。
+      },
+      manifest: {
+        name: "Music App",
+        theme_color: "#ff5e3a",
+        icons: [
+          {
+            src: "/assets/img/pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+        ],
+      },
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,png,jpg,gif,svg,woff2}"], // glob的意思是全局匹配,这里是匹配所有静态资源,woff2是字体
+      },
+    }),
+  ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
-})
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
+});
