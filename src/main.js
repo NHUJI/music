@@ -8,6 +8,7 @@ import { auth } from "./includes/firebase";
 import Icon from "./directives/icon";
 import i18n from "./includes/i18n";
 import { registerSW } from "virtual:pwa-register";
+import GlobalComponents from "./includes/_globals";
 
 import "./assets/base.css";
 import "./assets/main.css";
@@ -26,6 +27,7 @@ auth.onAuthStateChanged(() => {
     app.use(router);
     app.use(VeeValidatePlugin);
     app.use(i18n);
+    app.use(GlobalComponents); // 自动注册全局组件
     app.directive("icon", Icon); // 所以的指令名称都有伪装V-前缀的形式,这里的icon就是v-icon
 
     app.mount("#app");
