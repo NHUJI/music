@@ -1,5 +1,7 @@
 // 用于自动全局注册组件
-import _ from "lodash"; // 可以提供一些有用的工具函数
+// import _ from "lodash"; // 可以提供一些有用的工具函数
+import upperFirst from "lodash/upperFirst"; // 将字符串的首字母转换为大写
+import camelCase from "lodash/camelCase"; // 将字符串转换为驼峰式
 
 export default {
   install(app) {
@@ -13,8 +15,8 @@ export default {
     // 将glob导入的对象转换为数组
     Object.entries(baseComponents).forEach(([path, module]) => {
       //  获取文件名,将文件名转换为有效的组件名称循环遍历它们
-      const componentsName = _.upperFirst(
-        _.camelCase(
+      const componentsName = upperFirst(
+        camelCase(
           path
             .split("/") // 将路径分割为数组
             .pop() // 获取文件名(目录的最后一个元素)

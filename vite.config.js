@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import vue from "@vitejs/plugin-vue";
+// import { visualizer } from "rollup-plugin-visualizer"; // 可视化打包后的文件大小,需要时再引入
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -28,6 +29,7 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,png,jpg,gif,svg,woff2}"], // glob的意思是全局匹配,这里是匹配所有静态资源,woff2是字体
       },
     }),
+    // visualizer({ open: true }), // 打包分析,在npm run build后会自动打开分析页面
   ],
   resolve: {
     alias: {

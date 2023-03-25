@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "@/views/Home.vue";
-import About from "@/views/About.vue";
-import Manage from "@/views/manage.vue";
-import Song from "@/views/Song.vue";
 
 import useUserStore from "@/stores/user";
+
+// chunk,当路由被访问时才加载组件
+const Home = () => import("@/views/Home.vue"); //当路由被访问时才加载组件,import关键字可以作为动态导入模块的函数
+const About = () => import("@/views/About.vue");
+const Manage = () => import("@/views/manage.vue");
+const Song = () => import("@/views/Song.vue");
 
 // 独立出来方便管理(可选)
 const routes = [
