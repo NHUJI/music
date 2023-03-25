@@ -149,24 +149,26 @@ export default {
       });
     },
   },
-  async created() {
+  async beforeRouteEnter(to, from, next) {
     // not use where because only want to get one document, if we want to get multiple documents, we use where
-    const docSnapshot = await songsCollection
-      .doc(this.$route.params.id)
-      .get();
+    const docSnapshot = await songsCollection.doc(to.params.id).get();
 
-    if (!docSnapshot.exists) {
-      this.$router.push({ name: "home" });
-      return;
-    }
+    next((vm) => {
+      if (!docSnapshot.exists) {
+        vm.$router.push({ name: "home" });
+        return;
+      }
+      // grab sort from query
+      const { sort } = vm.$route.query;
+      // if sort is 1 or 2, then set it to this.sort, otherwise set it to 1
+      // eslint-disable-next-line no-undef
+      vm.sort = sort === "1" || sort === "2" ? sort : "1";
 
-    // grab sort from query
-    const { sort } = this.$route.query;
-    // if sort is 1 or 2, then set it to this.sort, otherwise set it to 1
-    this.sort = sort === "1" || sort === "2" ? sort : "1";
-
-    this.song = docSnapshot.data();
-    this.getComments();
+      // eslint-disable-next-line no-undef
+      vm.song = docSnapshot.data();
+      // eslint-disable-next-line no-undef
+      vm.getComments();
+    });
   },
   methods: {
     ...mapActions(usePlayerStore, ["newSong"]),
