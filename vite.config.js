@@ -7,6 +7,9 @@ import vue from "@vitejs/plugin-vue";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  test: {
+    globals: true, // 可以在测试文件中直接使用全局变量而无需导入或声明它们
+  },
   plugins: [
     vue(),
     VitePWA({

@@ -87,8 +87,10 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+    // 用于监听滚动来获取更多歌曲
     handleScroll() {
       // Destructure the properties we need from the document and window objects
+      // 中文翻译: 从document和window对象中解构出我们需要的属性
       const { scrollTop, offsetHeight } = document.documentElement;
       const { innerHeight } = window;
 
